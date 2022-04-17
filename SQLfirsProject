@@ -1,0 +1,59 @@
+CREATE DATABASE store;
+
+ CREATE TABLE countries (
+code int primary key ,
+name varchar(20) unique ,
+continent_name varchar(20) unique
+);
+
+
+CREATE TABLE users(
+id int primary key ,
+full_name varchar(20) NOT NULL ,
+email varchar(20) unique ,
+gender varchar(9),
+date_of_birth varchar(15) NOT NULL ,
+created_at datetime,
+country_code int ,
+foreign key (country_code) references countries(code),
+check(gender in ('Male', 'Female', 'Unknown'))
+);
+
+
+CREATE TABLE orders(
+id int primary key ,
+user_id int,
+foreign key (user_id) references users(id),
+status varchar(6),
+created_at datetime,
+check(status in ('start','finish'))
+);
+
+
+
+CREATE TABLE products(
+id int primary key NOT NULL,
+name varchar(10) NOT NULL,
+price int DEFAULT 0,
+status varchar(10),
+created_at datetime,
+check(status in ('valid','expired'))
+);
+
+
+CREATE TABLE order_product(
+order_id int NOT NULL,
+product_id int NOT NULL,
+quantity int DEFAULT 0,
+foreign key (order_id) references orders(id),
+foreign key (product_id) references products(id)
+);
+
+insert into countries values(1,'AU','Aa');
+insert into users values(3,'sama','sama@a.com','Female',25071996,1);
+insert into orders values(7,3,'start',2022-4-17 15:06:21);
+insert into products values(2,'salt',110,2022-4-17 15:06:21,'valid');
+insert into  order_product values(7,2,2);
+
+update countries set name='US' where id=1;
+delete from products where id=2;
